@@ -8,7 +8,6 @@ protected:
 public:
   int findRoot(int x) {
     int root = x;
-    // the old findRoot
     while(root != father[root]) {
       root = father[root];
     }
