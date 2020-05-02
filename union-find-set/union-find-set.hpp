@@ -6,6 +6,11 @@ class UFSB {
 protected:
   std::vector<int> father;
 public:
+  UFSB(const std::vector<int> &v) : father(v) {}
+  UFSB(int n) : father(n) {
+    for(int i = 0; i < n; ++i)
+      father[i] = i;
+  }
   int findRoot(int x) {
     int root = x;
     while(root != father[root]) {
