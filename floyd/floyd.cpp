@@ -1,5 +1,6 @@
 #include <vector>
 #include <climits>
+//e is adjacent matrix
 std::vector<std::vector<int>> floyd(const std::vector<std::vector<int>> &e) {
   //init the d
   auto d = e;

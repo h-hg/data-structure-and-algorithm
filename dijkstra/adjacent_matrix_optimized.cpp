@@ -4,6 +4,8 @@
 #include <iostream>
 #include <queue>
 #include <functional>
+
+//e is adjacent matrix
 std::vector<int> dijkstra(const std::vector<std::vector<int>> &e, int s) {
   int n = e.size();
   std::vector<bool> vis(n, false);
@@ -34,23 +36,4 @@ std::vector<int> dijkstra(const std::vector<std::vector<int>> &e, int s) {
     }
   }
   return d;
-}
-
-int main() {
-  using namespace std;
-  vector<vector<int>> graph = {
-    {0, INT_MAX, 10, INT_MAX, 30, 100},
-    {INT_MAX, 0, 5, INT_MAX, INT_MAX, INT_MAX},
-    {INT_MAX, INT_MAX, 0, 50, INT_MAX, INT_MAX},
-    {INT_MAX, INT_MAX, INT_MAX, 0, INT_MAX, 10},
-    {INT_MAX, INT_MAX, INT_MAX, 20, 0, 60},
-    {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 0}
-  };
-  for(auto val: dijkstra(graph, 0))
-    if(val == INT_MAX)
-      cout << "oo ";
-    else
-      cout << val << ' ';
-  cout << endl;
-  return 0;
 }
