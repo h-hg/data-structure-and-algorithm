@@ -35,7 +35,7 @@ public:
 ```
 注意：`search`的返回值是指针，是为了方便搜索不到的时候的返回值（这时候应该返回`nullptr`），这有点类似`STL`的设计。
 
-### 成员变量
+### 存储结构
 我们只需要两个变量：`_root`和`_size`。
 ```cpp
 template <typename K, typename V>

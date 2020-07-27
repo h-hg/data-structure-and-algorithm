@@ -117,6 +117,7 @@ int binarySearchLeft(vector<int> &nums, int target) {
 我们将搜索区间$[l, r]$分成为$[l, mid - 1]$和$[mid + 1, r]$
 
 代码说明
+
 1. `nums[mid] == target`后的`r = mid -1`：因为我们要查找左边界，在我们找到`target`后，我们还要确定`mid`左边是否还有`target`，所以我们将`r`更新为`mid - 1`，搜索区间$[l, mid - 1]$
 2. `l >= nums.size() || nums[l] != target ? -1 : l`：
 

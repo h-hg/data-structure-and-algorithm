@@ -113,7 +113,7 @@ int UFSB::findRoot(int x) {
 using namespace std;
 //union find set
 template <typename T>
-class UFS: protected UFSB{
+class UFS: protected UFSB {
 protected:
   map<T, int> elem2id;
 public:

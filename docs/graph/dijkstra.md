@@ -5,6 +5,7 @@
 Dijikstra （迪杰斯特拉）算法用来解决单源最短路径问题，即给定图$G$和起点$s$，通过算法得到S到达其他每个顶点的最短距离。
 
 为了方便描述，我们引入下面的记号。
+
 - 图$G(V, E)$，节点个数为$n$
 - 集合$S$：已经被访问过的节点的集合
 - $d[i]$：表示当前起点$s$到节点$i$的最短距离。
@@ -13,6 +14,7 @@ Dijikstra （迪杰斯特拉）算法用来解决单源最短路径问题，即�
 Dijistra 的核心公式便是$d[v] = \underset{u_i \ is \ neighbour \ of \  v}{\min} (d[v], d[u_i] + e[u_i][v])$，其中$u_i$也被称为中间节点。
 
 步骤如下：
+
 1. 将起点$s$放入集合$S$，将$d$全部元素初始化为$\infty$，并令$d[s] = 0$。
 2. 从集合$V - S$中寻找最小值$d[u]$，标记$u$为已访问，使用 dijkstra 的核心公式$d[v_i] = \underset{v_i \ is \ neighbour \ of \  u}{\min} (d[v_i], d[u] + e[u][v_i])$更新节点$u$与其邻居并且是集合$V-S$的节点$v_i$的$d[v_i]$
 3. 判断$V-S$是否为空集，否的话，跳转到步骤2
@@ -34,11 +36,12 @@ Dijistra 的核心公式便是$d[v] = \underset{u_i \ is \ neighbour \ of \  v}{
 |5|**0**|$\infty$|**10**|**50**|**30**|**60**|
 |1|**0**|**$\infty$**|**10**|**50**|**30**|**60**|
 
-很明显，第一次步骤二的$u$就是$s$，即例子中的$0$，第一次步骤二完成后，$d$的值为$\{0, \infty, 10, \infty, 30, 100\}$。接着继续找到最小的节点$u$，即$2$，使用公式完成更新，$d$的值为$\{0, \infty, 10, 60, 30, 100\}$……直到所有节点都被访问。
+很明显，第一次步骤二的$u$就是$s$，即例子中的$V_0$，第一次步骤二完成后，$d$的值为$\{0, \infty, 10, \infty, 30, 100\}$。接着继续找到最小的节点$u$，即$V_2$，使用公式完成更新，$d$的值为$\{0, \infty, 10, 60, 30, 100\}$……直到所有节点都被访问。
 
 这里我们可以看出最后一次更新是多余的，因为$d[u]=\infty$，即所有未被访问的节点的$d[i]$都是$\infty$，利用$d[v] = \underset{u_i \ is \ neighbour \ of \  v}{\min}(d[v], d[u_i] + e[u_i][v])$得到的结果还是$\infty$。
 
 所以我们可以有如下的优化，将步骤二改成：
+
 2. 从集合$S - V$中寻找最小值$d[u]$，如果$d[u]=\infty$，则算法完成，否则标记$u$为已访问，使用核心公式更新节点$u$与其邻居并且是集合$V-S$的节点$j$的$d[j]$
 
 例子的效果如下：
@@ -107,24 +110,24 @@ vector<int> dijkstra(const vector<vector<int>> &e, int s) {
 
 设节点个数为$V$，边的个数为$E$的话。
 
-在使用邻接矩阵的情况下，复杂度为$\Theta(V*(V+V))=\Theta(2V^2)=\Theta(V^2)$。
+在使用`vis`数组来设置访问过的节点的情况下，邻接矩阵的复杂度为$\Theta(V*(V+V))=\Theta(2V^2)=\Theta(V^2)$；如果改成邻接表的话，仅仅需要改变`update the d`，复杂度为$\Theta(V(V+E_i))=\Theta(V^2+E)$。（其中$E_i$为某个顶点的边数）
 
-如果改成邻接表的话，仅仅改变`update the d`，复杂度为$\Theta(V(V+E_i))=\Theta(V^2+E)$。（其中$E_i$为某个顶点的边数）
-
-也就是说在上面两种代码的复杂度至少为$O(V^2)$，我们可以做一点小优化，上面寻找节点$u$的复杂度为$\Theta(V)$，如果改成用堆优化的话，那么复杂度将变成$\Theta(\log V)$，那么整个复杂度将变成$\Theta(V\log V)$（邻接矩阵）和$\Theta(V\log V + E)$。
+也就是说在上面两种代码的复杂度至少为$O(V^2)$，我们可以做一点小优化，上面寻找节点$u$的复杂度为$\Theta(V)$，如果改成用堆优化的话，那么复杂度将变成$\Theta(\log V)$，那么整个复杂度将变成$\Theta(V\log V)$（邻接矩阵）和$\Theta(V\log V + E)$（邻接表）。
 
 具体操作如下：
+
 1. 将$s$加入堆，并调整堆。
 2. 选出堆顶元素$u$（即代价最小的元素），从堆中删除。
 3. 处理与$u$相邻的且未被访问过的节点$v$，如果距离需要更新的话
   - 若该点在堆里，更新距离，并调整该元素在堆中的位置。
-  - 若该点不在堆里，加入堆，更新堆。
+  - 若该点不在堆里，更新距离，加入堆，更新堆。
 4. 堆是否为空，否的话重复步骤2、3。
 
 关于 C++ 的实现，由于没有专门实现一个堆数据结构，使用`priority_queue`代替，它没有提供修改队列中元素的方法，所以我们将步骤修改成如下改成如下。
+
 1. 将$s$加入堆，并调整堆。
 2. 选出堆顶元素$u$（即代价最小的元素），从堆中删除。
-3. 如果节点$u$已经被访问了，重复步骤2，直到堆为空（算法结束）或节点$u$没有被访问过
+3. 如果节点$u$已经被访问了，重复步骤2，直到堆为空（算法结束）。
 4. 处理与$u$相邻的且未被访问过的节点$v$，如果距离需要更新的话，将$v$与新的距离插入到堆中
 5. 堆是否为空，否的话重复步骤2、3、4。
 
@@ -222,7 +225,8 @@ if(d[u] + e[u][v] < d[v]) {
   d[v] = d[u] + e[u][v];
   e_w_total[v] = e_w_total[u] + e_w[u][v];
 } else if(d[u] + e[u][v] == d[v] && e_w_total[u] + e_w[u][v] < e_w_total[v]) {
-  e_w_total[v] = e_w_total[u] + e_w[u][v];// The shortest distance is the same, choose the one with the smallest total edge weight
+  // The shortest distance is the same, choose the one with the smallest total edge weight
+  e_w_total[v] = e_w_total[u] + e_w[u][v];
 }
 ```
 
@@ -242,7 +246,8 @@ if(d[u] + e[u][v] < d[v]) {
   d[v] = d[u] + e[u][v];
   v_w_total[v] = v_w_total[u] + v_w[v];
 } else if(d[u] + e[u][v] == d[v] && v_w_total[u] + v_w[v] > v_w_total[v]) {
-  v_w_total[v] = v_w_total[u] + v_w[v];// The shortest distance is the same, choose the one with the largest total vertex weight
+  // The shortest distance is the same, choose the one with the largest total vertex weight
+  v_w_total[v] = v_w_total[u] + v_w[v];
 }
 ```
 
@@ -254,7 +259,7 @@ if(d[u] + e[u][v] < d[v]) {
 
 ```cpp
 fill(num, num + n, 0);
-num[s] = 0;
+num[s] = 1;
 ```
 
 更新$d[v]$

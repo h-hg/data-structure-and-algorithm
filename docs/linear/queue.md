@@ -127,3 +127,6 @@ void SequenceQueue<T>::expand() {
 
 ## 链式队列
 
+## 双端队列
+
+## 循环队列
