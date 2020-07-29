@@ -47,7 +47,7 @@ public:
 
 由此，我们可以得出
 
-- 申请空间范围为`[_bottom, __capactiy)`，长度为`_capactiy - _bottom`
+- 申请空间范围为`[_bottom, _capactiy)`，长度为`_capactiy - _bottom`
 - 实际使用空间的范围为`[_bottom, _top]`，长度为`_top - _bottom + 1`
 
 ![顺序栈的物理结构](stack/sequence-stack.drawio.svg)
