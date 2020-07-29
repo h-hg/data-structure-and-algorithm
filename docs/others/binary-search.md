@@ -38,7 +38,7 @@ int binarySearch(vector<int> &nums, int target) {
 
 ### 区间 [l, r]
 
-题目描述：给定某指定值，在升序数组中查找该值的位置，若不存在则返回-1
+题目描述：给定某指定值`target`，在升序数组`nums`中查找该值的位置，若不存在则返回-1
 
 如果看过其他的教程的话，我们可以不假思索地写下如下代码
 
@@ -65,15 +65,15 @@ int binarySearch(vector<int> &nums, int target) {
 2. 为什么是`while(l <= r)`
 3. 如何设置`l`和`r`的更新
 
-为了解决这几个注意点，我们必须先二分查找的思想，二分查找本质上就是将搜索区间在排除已搜索过的值后将其划分为两个区间，选择其中一个区间继续搜索，从而达到搜索区间减半的效果。
+为了解决这几个注意点，我们必须先二分查找的思想，**二分查找本质上就是将搜索区间在排除已搜索过的值后将其划分为两个区间，选择其中一个区间继续搜索，从而达到搜索区间减半的效果**。
 
-1. `r = nums.size() - 1`表明我们的搜索区间是$[l, r]$，并不一定是此代码，下面还会说明`r = nums.size()`。
+1. `r = nums.size() - 1`表明我们的搜索区间是$[l, r]$，并不一定是区间，下面还会说明区间$[l, r)$的写法。
 2. 当搜索区间为空的时候，即`l`比`r`大的时候，和我们上面`while(l <= r)`想对应，也就是`while`刚好不成立的时候就是搜索空间刚好为空的时候。
-3. 我们将搜索区间$[l, r]$划分为$[l, mid - 1]$和$[mid + 1, r]$，当`mid < target`的时候，说明我们要查找的值在`mid`的左边，也就是$[l, mid - 1]$，反之，我们的搜索区间就是$[mid + 1, r]$，这也是我们更新`l`和`r`的原则。
+3. 我们将搜索区间$[l, r]$划分为$[l, mid - 1]$和$[mid + 1, r]$，当`mid < target`的时候，说明`target`在`mid`的左边，也就是$[l, mid - 1]$，反之，我们的下一个搜索区间就是$[mid + 1, r]$，这也是我们更新`l`和`r`的原则。
 
 ### l, r 取值
 
-其实，如果知道数组的元素和`target`，我们也可以知道最后`l`和`r`的值。二分搜素的目的是不断搜小搜索区间，如果一直没有找到`target`，区间就会被缩小成只有一个元素的区间，在上面的实现中，区间就会被缩小成$[x, x]$，我们只需要将该区间代入上面的`while`循环就可以知道最后`l`和`r`的值了。
+其实，如果知道数组的元素和`target`，我们也可以知道最后`l`和`r`的值。二分搜素的目的是不断搜小搜索区间，比如某一次区间大小为$n$，下一次的区间大小就是$\lceil \cfrac{n}{2} \rceil$或$\lfloor \cfrac{n}{2} \rfloor$，如果一直没有找到`target`，区间就会被缩小成只有一个元素的区间。假设在上面的实现中，区间被缩小成$[x, x]$，我们只需要将该区间代入上面的`while`循环就可以知道最后`l`和`r`的值了。
 
 1. 如果数组元素都小于`target`，那么区间肯定一直往右缩小，最后变成$[num.size() - 1, num.size() - 1]$，代入`while`循环后，我们就可以知道最后`l = nums.size(), r = nums.size() - 1`，符合跳出`while(l <= r)`的条件。
 2. 如果数组元素都大于`target`，那么区间肯定一直往左缩小，最后变成$[0, 0]$，代入`while`循环后，我们就可以知道最后`l = 0, r = -1`，符合跳出`while(l <= r)`的条件。
@@ -153,7 +153,7 @@ int binarySearchLeft(vector<int> &nums, int target) {
 	1. 如果数组中存在`target`值，比如下面的图，当我们找到最左的`target`后还要往左缩进继续查找`target`，由于已经是最左的`target`了，所以在$[l, mid - 1]$肯定没有`target`，且该区间所有值都小于`target`，最后`r = mid, l = r + 1`，`l`的值就是最左`target`的位置，所以我们要`return l`。
 	2. `nums`中数字都比`target`小的话，那么最后`l = nums.size(), r = nums.size() - 1`，这就是我们为什么判断`l == nums.size()`的原因。
 	3. `nums`中数字都比`target`大的话，那么最后`r = 0, l = 1`，但是`l`并不是`target`的位置，所以我们要判断`nums[l] != target`
-	4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素，那么最后`l`属于$[0, nums.size())$，我们要判断`nums[l] != target`
+	4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素。设最大的小于`target`的元素的下标为`x`，从上面的推断方法中，我们很容易知道最后`l`等于`x+1`，所以我们要判断`nums[l] != target`
 
 ![](binary-search/left-bound-close-search.drawio.svg)
 
@@ -184,13 +184,13 @@ int binarySearchLeft(vector<int> &nums, int target) {
 1. 如果数组中存在`target`值，比如下面的图，我们找到最左的`target`后还要往左缩进继续查找`target`，由于已经是最左的`target`了，所以在$[l, mid)$肯定没有`target`，且该区间所有值都小于`target`，最后`l = r = mid`，`l`的值就是最左`target`的位置，所以我们要`return l`。
 2. `nums`中数字都比`target`小的话，那么最后`l = r = nums.size()`，这就是我们为什么判断`l == nums.size()`的原因。
 3. `nums`中数字都比`target`大的话，最后`l = r = 0`，也就是说`l`并不是`target`的位置，所以我们要判断`nums[l] != target`
-4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素，那么最后`l`属于$[0, nums.size())$，我们要判断`nums[l] != target`
+4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素。设最大的小于`target`的元素的下标为`x`，从上面的推断方法中，我们很容易知道最后`l`等于`x+1`，所以我们要判断`nums[l] != target`。
 
 ![](binary-search/left-bound-open-search.drawio.svg)
 
 ### 新的角度
 
-我们从另一个角度看待左边界，由于数组的下标总是从0开始，那么`target`的下标同时也是数组中小于`target`的元素个数，考虑如下特殊情况：
+我们从另一个角度看待左边界，由于数组的下标总是从0开始，那么`target`的下标同时也是数组中小于`target`的元素个数。我们可以猜想最后`l`的值就是数组中小于`target`的个数，为证明此猜想，我们只需要证明特殊情况，证明如下
 
 1. 如果`nums`的元素都小于`target`，那么`l`最后就会等于`nums.size()`，`l`满足小于`target`的元素个数。
 2. 如果`nums`的元素都大于`target`，那么`l`最后就会等于`0`，`l`满足小于`target`的元素个数。
@@ -244,7 +244,7 @@ int less_than(vector<int> &nums, int target) {
 
 给定一个含有重复元素的升序数组以及一个元素`target`，你如何找到该元素第一次出现的位置，例如`array = {0, 0, 1, 2, 2, 2, 2, 3, 4}`和`target = 2`，正确答案便是`6`。
 
-搜索区间为$[l ,r]$，
+当搜索区间为$[l ,r]$，我们的实现代码如下
 
 ```cpp
 int binarySearchRight(vector<int> &nums, target) {
@@ -266,9 +266,9 @@ int binarySearchRight(vector<int> &nums, target) {
 在这里我们需要说明一下，为什么在[左边界搜索](#左边界搜索)，我们使用`l`来判断而在这里却使用`r`来判断。
 
 1. 如果数组中存在`target`值，比如下面的图，我们找到最右的`target`后还要往右缩进继续查找`target`，由于已经是最右的`target`了，所以在$[mid + 1, r)$肯定没有`target`，最后`l = mid + 1，r = mid`，`r`的值就是最右`target`的位置，所以我们要`return r`。
-2. `nums`里面的元素都小于`target`，最后`l = nums.size(), r = nums.size()- 1`，所以我们要判断`nums[r] != target`
+2. `nums`里面的元素都小于`target`，最后`l = nums.size(), r = nums.size()-1`，所以我们要判断`nums[r] != target`
 3. `nums`里面的元素都大于`target`，最后`l = 0, r = -1`，所以我们要判断`r < 0`
-4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素，那么最后`r`属于$[0, nums.size())$，我们要判断`nums[l] != target`
+4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素。设最大的小于`target`的元素的下标为`x`，从上面的推断方法中，我们很容易知道最后`r`等于`x`。所以我们要判断`nums[l] != target`
 
 ![](binary-search/right-bound-close-search.drawio.svg)
 
@@ -299,13 +299,15 @@ int binarySearchRight(vector<int> &nums, int target) {
 1. 如果数组中存在`target`值，比如下面的图，我们找到最右的`target`后还要往右缩进继续查找`target`，由于已经是最右的`target`了，所以在$[mid + 1, r)$肯定没有`target`，最后`l = r = mid + 1`，`r - 1`的值就是最右`target`的位置，所以我们要`return r - 1`。
 2. `nums`里面的元素都小于`target`，最后`l = r = nums.size()`，所以我们要判断`nums[r - 1] != target`
 3. `nums`里面的元素都大于`target`，最后`l = r = 0`，所以我们要判断`r - 1 < 0`
-4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素，那么最后`r`属于$[0, nums.size())$，我们要判断`nums[r - 1] != target`
+4. 如果`nums`存在小于和大于`target`的元素，不存等于`target`的元素。设最大的小于`target`的元素的下标为`x`，从上面的推断方法中，我们很容易知道最后`l = r = x + 1`，我们要判断`nums[r - 1] != target`。
 
 ![](right-bound-open-search-drawio.svg)
 
 ### 新的角度
 
 最后，同样从另一个角度看到右边界的问题，`nums.size()`减去`target`的位置就是`nums`中大于`target`的元素的个数，其证明就不给出了，类似左边界的证明即可。
+
+闭区间的实现代码：
 
 ```cpp
 int greater_than(vector<int> &nums,int target) {
@@ -320,27 +322,52 @@ int greater_than(vector<int> &nums,int target) {
 			r = mid - 1;
 		}
 	}
-	//return r == -1 ? nums.size() : 
+	if(r == -1)
+		return nums.size();
+	else if(r == nums.size() - 1 && nums[r] != target)
+		return nums.size() - (r + 1);
+	else
+		return nums.size() - r;
 }
 ```
 
+特殊情况的证明
+
+1. 数组中存在`target`，最后`r`等于最后一个`target`出现的位置，应该`return nums.size() - r`
+2. 数组中元素都小于`target`，最后`r = nums.size() - 1`，应该`return nums.size() - (r + 1)`
+3. 数组中元素都大于`target`，最后`r = - 1`，应该`return nums.size()`
+4. 数组中存在小于和大于`target`的元素，不存在`target`元素。设最大的小于`target`的元素的下标为`x`，从上面的推断方法中，我们很容易知道最后`r`等于`x`。应该`return nums.size() - r`
+
+开区间的实现代码
+
 ```cpp
 int binarySearchRight2(vector<int> &nums, int target) {
-	int l = 0, r = nums.size(); // attention
-	while (l < r) { // attention
+	int l = 0, r = nums.size();
+	while (l < r) {
 		int mid = (l + r) / 2;
 		if (nums[mid] < target) {
 			l = mid + 1;
 		} else if (nums[mid] == target) {
-			l = mid + 1; //attention
+			l = mid + 1;
 		} else if (nums[mid] > target) {
 			r = mid;
 		}
 	}
-	//auto ret = r - 1;
-	//return ret < 0 || nums[ret] != target ? -1 : ret;
+	if(r == nums.size())
+		return 0;
+	else if(r == 0 && nums[0] != target)
+		return nums.size();
+	else
+		return nums.size() - (r - 1);
 }
 ```
+
+特殊情况的证明
+
+1. 数组中存在`target`，最后`r - 1`等于最后一个`target`出现的位置，应该`return nums.size() - (r - 1)`
+2. 数组中元素都小于`target`，最后`r = nums.size()`，应该`return 0`
+3. 数组中元素都大于`target`，最后`r = 0`，应该`return nums.size()`
+4. 数组中存在小于和大于`target`的元素，不存在`target`元素。设最大的小于`target`的元素的下标为`x`，从上面的推断方法中，我们很容易知道最后`r`等于`x + 1`。应该`return nums.size() - (r - 1)`
 
 ## 代码总结
 
