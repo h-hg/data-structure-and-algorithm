@@ -1,6 +1,8 @@
 #include <iostream>
 #include <queue>
-#include "new-compress-trie-tree.cpp"
+#include <string>
+
+#include "compress-trie-tree.hpp"
 using namespace std;
 template <typename T>
 class Tester: public CompressTrieTree<T> {
@@ -22,6 +24,7 @@ public:
         for(auto &p : node.children)
           q.push(p.second);
       }
+      cout << endl;
     }
   }
 private:
@@ -32,21 +35,27 @@ private:
     cout << '"' << "[" << node.st << "," << node.ed << ")" << "<" << node.finish << ">";
   }
 };
+
 int main() {
   Tester<char> t;
-  t.insert({'a', 'b', 'c'});
-  t.print();
-  return 0;
-}
-void f(Node<char> &node, vector<char> const &word) {
-  node.children[word[0]] = 12313;
-  cout << node.children['a'];
-}
-int main1() {
-  Node<char> node;
-  vector<Node<char>> v;
-  v.push_back(Node<char>());
-  string word = "abc";
-  f(v[0], {'a', 'b', 'c'});
+  vector<string> strs = {
+    "minimize",
+    "inimize",
+    "nimize",
+    "imize",
+    "mize",
+    "ize",
+    "ze",
+    "e"
+  };
+  for(auto &vec: strs) {
+    vector<char> str(vec.begin(), vec.end());
+    cout << "insert " << vec << ":\n";
+    t.insert(str);
+    t.print();
+    cout << endl;
+  }
+  vector<char> tmp(strs[4].begin(), strs[4].end());
+  cout << t.search(tmp) << endl;
   return 0;
 }

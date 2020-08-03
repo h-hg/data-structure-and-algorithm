@@ -1,6 +1,6 @@
-//#define _TRIE_TREE_FIXED_NODE_SIZE_H
-#define _TRIE_TREE_CHILD_BROTHER_H
-//#define _TRIE_TREE_HASH_TREE_H
+//#define _TRIE_TREE_FIXED_SIZE_NODE_H
+#define _TRIE_TREE_CHILD_BROTHER_NODE_H
+//#define _TRIE_TREE_KV_NODE_H
 #include "trie-tree.hpp"
 
 #include <queue>
@@ -21,19 +21,23 @@ public:
         if(p != TrieTree<T>::_root)
           cout << (p->c) << "<" << (p->finish) << ">" << " ";
         
-        #ifdef _TRIE_TREE_FIXED_NODE_SIZE_H
-        for(auto first = p->children, last = p->children + Node<T>::MAX_CHILD_CNT; first != last; ++first)
-          if(*first != nullptr)
-            q.push(*first);
+        #ifdef _TRIE_TREE_FIXED_SIZE_NODE_H
+        auto ptr = dynamic_cast<FixedSizeNode<T>*>(p);
+        //for(auto first = ptr->children, last = ptr->children + FixedSizeNode<T>::MAX_CHILD_CNT; first != last; ++first)
+        for(auto &pnode: ptr->children)
+          if(pnode != nullptr)
+            q.push(pnode);
         #endif
 
-        #ifdef _TRIE_TREE_CHILD_BROTHER_H        
-        for(auto child = p -> child; child != nullptr; child = child -> bro)
+        #ifdef _TRIE_TREE_CHILD_BROTHER_NODE_H
+        auto ptr = dynamic_cast<ChildBrotherNode<T>*>(p);
+        for(auto child = ptr -> child; child != nullptr; child = child -> bro)
           q.push(child);
         #endif
 
-        #ifdef _TRIE_TREE_HASH_TREE_H
-        for(auto &val : p -> children)
+        #ifdef _TRIE_TREE_KV_NODE_H
+        auto ptr = dynamic_cast<KVNode<T>*>(p);
+        for(auto &val : ptr -> children)
           q.push(val.second);
         #endif
       }
@@ -51,6 +55,7 @@ int main() {
   t.insert({'A', 'S', 'C', 'I', 'I'});
   t.insert({'B', 'A', 'N'});
   t.print();
+  vector<int*> a(256, nullptr);
   return 0;
 }
 
