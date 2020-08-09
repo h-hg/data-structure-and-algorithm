@@ -8,6 +8,7 @@
 - [线性结构](linear/README.md)
   - [向量](linear/vector.md)
   - [栈](linear/stack.md)
+  - [单调栈](linear/monotone-stack.md)
   - [队列](linear/queue.md)
   - [优先级队列](linear/priority_queue.md)
   - [矩阵的压缩](linear/matrix-compression.md)
