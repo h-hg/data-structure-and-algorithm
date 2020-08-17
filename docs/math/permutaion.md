@@ -142,3 +142,5 @@ void permutaion(RandomIterator first, RandomIterator last) {
   }while(nextPermutation(first, last));
 }
 ```
+
+**待补充，可能前面有些代码少了考虑是否存在两个数的情况**

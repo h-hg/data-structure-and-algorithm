@@ -110,3 +110,9 @@ struct Vertex {
 };
 Vertex v_w[n];
 ```
+
+### 十字链表法
+
+Orthogonal List
+
+**待补充**
