@@ -26,7 +26,7 @@ struct Node {
   Node(K const &key, V const &val, Node<K, V> *plc = nullptr, Node<K, V> * prc = nullptr): k(key), v(val), h(1), lc(plc), rc(prc) {}
   //update height
   void updateH() {
-    h = .drawio.svgmax( lc ? lc -> h : 0, rc ? rc -> h : 0) + 1;
+    h = max( lc ? lc -> h : 0, rc ? rc -> h : 0) + 1;
   }
   //get balance factor
   int getBF() const {
