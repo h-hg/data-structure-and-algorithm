@@ -1,1 +1,0 @@
-A personal note for data structure and algorithm.

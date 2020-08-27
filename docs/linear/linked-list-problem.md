@@ -174,6 +174,11 @@ public:
 };
 ```
 
+其他相关的题目
+
+[25. Reverse Nodes in k-Group](https://leetcode.com/problems/reverse-nodes-in-k-group/)
+[92. Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii/)
+
 ## 无环单链表相交
 
 给定两个（单向）链表，判定它们是否相交并返回交点。若无相交，返回 null。

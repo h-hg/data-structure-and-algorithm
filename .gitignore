@@ -1,2 +1,8 @@
 .vscode/
 *.exe
+test/
+tmp/
+temp/
+draft/
+drafts/
+untracked/
