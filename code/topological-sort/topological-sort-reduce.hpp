@@ -6,7 +6,6 @@
 
 std::vector<int> topological_sort_reduce(std::vector<std::vector<int>> const &e) {
 	int n = e.size();
-	std::vector<bool> vis(n, false);
 	std::vector<int> ret;
 	auto indegrees = getIndgrees(e);
 	
@@ -17,9 +16,6 @@ std::vector<int> topological_sort_reduce(std::vector<std::vector<int>> const &e)
 	while(q.size()) {
 		auto v = q.front();
 		q.pop();
-		if(vis[v])
-			continue;
-		vis[v] = true;
 		ret.push_back(v);
 		for(auto val : e[v])
 			if(--indegrees[val] == 0)
@@ -31,7 +27,6 @@ std::vector<int> topological_sort_reduce(std::vector<std::vector<int>> const &e)
 
 std::vector<int> topological_sort_reduce_loop(std::vector<std::vector<int>> const &e) {
 	int n = e.size();
-	std::vector<bool> vis(n, false);
 	std::vector<int> ret;
 	auto indegrees = getIndgrees(e);
 	
@@ -42,9 +37,6 @@ std::vector<int> topological_sort_reduce_loop(std::vector<std::vector<int>> cons
 	while(q.size()) {
 		auto v = q.front();
 		q.pop();
-		if(vis[v])
-			continue;
-		vis[v] = true;
 		ret.push_back(v);
 		for(auto val : e[v])
 			if(--indegrees[val] == 0)

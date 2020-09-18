@@ -237,6 +237,7 @@ int main() {
   return 0;
 }
 ```
+
 ```
 3 6 4 8 7 12 15 10 16 9
 ```
@@ -552,4 +553,49 @@ vector<T> heapSort(vector<T> &arr, Compare &cmp) {
   reverse(arr.begin(), arr.end());
   return arr;
 }
+```
+
+## 关于 STL 中的实现
+
+在 `<algorithm>` 中也给我们封装了许多可以直接调用的方法，例如
+
+`make_heap` 提供了在 `[first, last)` 区间内建立堆
+
+```cpp
+template <class RandomAccessIterator>
+void make_heap (RandomAccessIterator first, RandomAccessIterator last);
+	
+template <class RandomAccessIterator, class Compare>
+void make_heap (RandomAccessIterator first, RandomAccessIterator last, Compare comp );
+```
+
+`push_heap` 将索引为 `last - 1` 的元素插入堆区间 `[first, last - 1)` 中
+
+```cpp
+template <class RandomAccessIterator>
+void push_heap (RandomAccessIterator first, RandomAccessIterator last);
+	
+template <class RandomAccessIterator, class Compare>
+void push_heap (RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+```
+
+`pop_heap` 将堆顶元素与末尾元素交换，然后调增堆。
+
+```cpp
+template <class RandomAccessIterator>
+void pop_heap (RandomAccessIterator first, RandomAccessIterator last);
+	
+template <class RandomAccessIterator, class Compare>
+void pop_heap (RandomAccessIterator first, RandomAccessIterator last,
+Compare comp);
+```
+
+`sort_heap` 对堆区间 `[first, last)` 的元素进行排序
+
+```cpp
+template <class RandomAccessIterator>
+void sort_heap (RandomAccessIterator first, RandomAccessIterator last);
+
+template <class RandomAccessIterator, class Compare>
+void sort_heap (RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 ```

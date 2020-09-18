@@ -28,7 +28,7 @@ vector<int> getIndgrees(vector<vector<int>> const &e) {
 
 下面我们结合例子说名这两种算法是怎么实现的，例子的顶点图如下：
 
-![](topological/topological-sort-example.drawio)
+![](topological-sort/topological-sort-example.drawio.svg)
 
 ### 减一法
 
@@ -40,11 +40,11 @@ vector<int> getIndgrees(vector<vector<int>> const &e) {
 
 在图中，我们发现$v_0$、$v_1$和$v_5$这三个顶点的入度为零，我们把这三个顶点加入队列，将这些节点以及从它们出发的边删除，同时将这些顶点依次放入输出序列，得到下面的图。
 
-![](topological/example-reduce-1.drawio)
+![](topological-sort/example-reduce-1.drawio.svg)
 
 我们继续寻找入度为零的节点，并将这些节点加入队列，即图中的$v_2$。我们很容易得出新的入度为零的顶点肯定是上一批被删除的顶点的邻接节点，因为将从它们出发的边删除，与其邻接的顶点才有可能入度为零。我们继续上面的操作，得到下面的图。
 
-![](topological/example-reduce-2.drawio)
+![](topological-sort/example-reduce-2.drawio.svg)
 
 我们继续找出入度为零的顶点，即$v_3$，重复上面的操作，最后只剩一个入度为零的顶点$v_4$，继续重复上面的操作。
 
@@ -55,7 +55,6 @@ vector<int> getIndgrees(vector<vector<int>> const &e) {
 ```cpp
 vector<int> topological_sort_reduce(vector<vector<int>> const &e) {
 	int n = e.size();
-	vector<bool> vis(n, false);
 	vector<int> ret;
 	auto indegrees = getIndgrees(e);
 	
@@ -66,9 +65,6 @@ vector<int> topological_sort_reduce(vector<vector<int>> const &e) {
 	while(q.size()) {
 		auto v = q.front();
 		q.pop();
-		if(vis[v])
-			continue;
-		vis[v] = true;
 		ret.push_back(v);
 		for(auto val : e[v])
 			if(--indegrees[val] == 0)
@@ -83,7 +79,6 @@ vector<int> topological_sort_reduce(vector<vector<int>> const &e) {
 ```cpp
 vector<int> topological_sort_reduce_loop(vector<vector<int>> const &e) {
 	int n = e.size();
-	vector<bool> vis(n, false);
 	vector<int> ret;
 	auto indegrees = getIndgrees(e);
 	
@@ -94,9 +89,6 @@ vector<int> topological_sort_reduce_loop(vector<vector<int>> const &e) {
 	while(q.size()) {
 		auto v = q.front();
 		q.pop();
-		if(vis[v])
-			continue;
-		vis[v] = true;
 		ret.push_back(v);
 		for(auto val : e[v])
 			if(--indegrees[val] == 0)
@@ -177,6 +169,14 @@ vector<int> topological_sort_dfs_loop(vector<vector<int>> const &e) {
   return ret;
 }
 ```
+
+## 双向图
+
+如果图是双向图的吧，需要将判断入度为 0 改为判断度为 1。
+
+一道双向图的拓扑排序题目：[leetcode - 310. Minimum Height Trees]
+
+（未完待续）
 
 ## 参考资料
 
