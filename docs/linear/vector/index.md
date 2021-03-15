@@ -52,7 +52,7 @@ public:
 - 申请空间范围为`[_head, _capactiy)`，长度为`_capactiy - _head`
 - 实际使用空间的范围为`[_head, _tail)`，长度为`_tail - _head`
 
-![物理结构图](vector/physical-structure.drawio.svg)
+![物理结构图](physical-structure.drawio.svg)
 
 ```cpp
 template <typename T>

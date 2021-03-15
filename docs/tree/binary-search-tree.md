@@ -277,3 +277,15 @@ void insert(K const &k, V const &v) {
 ```
 
 不得不说，在递归中使用`*&`（注意代码中的`*&`），减少了父指针，是一种明智的选择！！
+
+## 待补充
+
+### 建立
+
+1. 前序遍历序列建立二叉树
+
+[1043 Is It a Binary Search Tree (25point(s))](https://pintia.cn/problem-sets/994805342720868352/problems/994805440976633856) 这道题没有给出序列中的空节点。
+
+好像是我理解错了题意 [思路](https://blog.csdn.net/qq_43705697/article/details/106264671)
+
+2. 乱序建立完全二叉树

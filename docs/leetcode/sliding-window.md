@@ -211,3 +211,51 @@ public:
   }
 };
 ```
+
+## 火星购物
+
+[1044 Shopping in Mars](https://pintia.cn/problem-sets/994805342720868352/problems/994805439202443264)
+
+```cpp
+#include <iostream>
+#include <map>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+int main() {
+  int n, m;
+  cin >> n >> m;
+  vector<int> d(n);
+  for(int i = 0; i < n; ++i)
+    cin >> d[i];
+  //sliding windows
+  int l = 0, r = 0, sum = 0; //[l, r)
+  int minCost = INT_MAX;
+  vector<pair<int, int>> ans;
+  while(r < n) {
+    //enlarge
+    sum += d[r];
+    ++r;
+    while (sum >= m) {
+      //update
+      int cost = sum - m;
+      if(cost < minCost) {
+        ans.clear();
+        minCost = cost;
+        ans.push_back({l, r - 1});
+      } else if(cost == minCost) {
+        ans.push_back({l, r - 1});
+      }
+      //shrinkage
+      sum -= d[l];
+      ++l;
+    }
+  }
+  //output
+  for(auto &p : ans)
+    cout << (p.first + 1) << '-' << (p.second + 1) << endl;
+  return 0;
+}
+```

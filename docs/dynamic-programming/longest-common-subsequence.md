@@ -20,7 +20,7 @@ dp[i][j] =
 \begin{cases}
 0 & i = 0 \ or \ j = 0\\
 dp[i-1][j-1] + 1 & s1[i-1] = s2[j-1] \\
-\max \{ dp[i-1][j], dp[i][j-1], dp[i-1][j-1] + 1\} & s1[i-1] \neq s2[j-1]
+\max \{ dp[i-1][j], dp[i][j-1], dp[i-1][j-1]\} & s1[i-1] \neq s2[j-1]
 \end{cases}
 $$
 
@@ -40,3 +40,21 @@ public:
   }
 };
 ```
+
+## 变体
+
+[1045. Favorite Color Stripe](https://pintia.cn/problem-sets/994805342720868352/problems/994805437411475456)
+
+s2 长度长于 s1，从 s2 中取出某子序列 s'，s’ 与 s1 拥有公共子序列，s' 子序列满足该条件的最长子序列。
+
+$$
+dp[i][j] = 
+\begin{cases}
+0 & i = 0 \ or \ j = 0\\
+\max \{ dp[i-1][j], dp[i][j-1], dp[i-1][j-1] + 1\} & s1[i-1] = s2[j-1] \\
+\max \{ dp[i-1][j], dp[i][j-1], dp[i-1][j-1]\} & s1[i-1] \neq s2[j-1]
+\end{cases}
+$$
+
+空间还能优化？
+[](https://github.com/liuchuo/PAT/blob/master/AdvancedLevel_C%2B%2B/1045.%20Favorite%20Color%20Stripe%20(30)%20.cpp)

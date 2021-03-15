@@ -55,6 +55,58 @@ void inOrder(Node<T> *root) {
 }
 ```
 
+树的层次遍历与图有点小区别
+
+```cpp
+void levelOrder(Node<T> *root) {
+  queue<Node<T> *> q;
+  q.push(root);
+  while(q.size()) {
+    // every level
+    for(int i = 0, n = q.size(); i < n; ++i) {
+      auto node = q.front();
+      q.pop();
+      //visit the node
+      if(node -> lc)
+        q.push(node -> lc);
+      if(node -> rc)
+        q.push(node -> rc);
+    }
+  }
+}
+```
+
+连接表的图的层次遍历
+
+```cpp
+void levelOrder(int source, vector<vector<int>> &graph) {
+  vector<bool> vis(graph.size() + 1, false);
+  queue<int> q;
+  q.push(source);
+  while(q.size()) {
+    //every level
+    for(int i = 0, n = q.size(); i < n; ++i) {
+      auto node = q.front();
+      q.pop();
+      if(vis[node])
+        continue;
+      vis[node] = true;
+      //visit the node
+      for(auto &neighbor : graph[node])
+        q.push(neighbor);
+    }
+  }
+}
+```
+
 ## 构建
 
 由先序遍历和中序遍历构建二叉树。
+
+一道有趣的题目（利用先序遍历的特点）：[1099 Build A Binary Search Tree](https://pintia.cn/problem-sets/994805342720868352/problems/994805367987355648)
+
+
+先序序列构建BST = 第一个结点为根结点，然后将后面的序列结点不断插入。
+[1135 Is It A Red-Black Tree (30point(s))](https://pintia.cn/problem-sets/994805342720868352/problems/994805346063728640)
+
+构建完全二叉搜索树 [1064 Complete Binary Search Tree (30point(s))](https://pintia.cn/problem-sets/994805342720868352/problems/994805407749357568)

@@ -359,6 +359,8 @@ void dfs(int v) {
 }
 ```
 
+例子：[1087 All Roads Lead to Rome](https://pintia.cn/problem-sets/994805342720868352/problems/994805379664297984)
+
 ## 参考资料
 
 - 林厚从《高级数据结构 C++版》第三版

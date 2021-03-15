@@ -104,7 +104,7 @@ public:
 
 设置快慢指针，快指针每次走两步，慢指针每次走一步，由上面可以知道，快慢指针肯定会相遇。我们很容易知道快慢指针肯定在圆圈内相遇，描述图如下。
 
-![](linked-list-problem/cycle-starting-point.png)
+![](cycle-starting-point.png)
 
 相遇时
 
@@ -153,7 +153,7 @@ public:
 
 思路：
 
-![](linked-list-problem/reverse-linked-list.drawio.svg)
+![](reverse-linked-list.drawio.svg)
 
 ```cpp
 class Solution {
@@ -187,7 +187,7 @@ public:
 
 我们先看看两个无环单链表相交的情况，如下图所示。
 
-![](linked-list-problem/no-cycle-intersection.drawio.svg)
+![](no-cycle-intersection.drawio.svg)
 
 如果它们存在相交的话，那么它们最后一个结点肯定是同一个结点，这是我们用来判断链表是否相交的根据。
 
@@ -258,4 +258,4 @@ public:
 	1. 如果两个链表的长度相等的话，很容易看出上面的代码会返回第一个相交的结点
 	2. 如果两个链表长度不相等的话，下图容易看出，它们将会在第一个相交的结点跳出循环
 
-![](linked-list-problem/no-cycle-intersection-explaination.drawio.svg)
+![](no-cycle-intersection-explaination.drawio.svg)

@@ -50,7 +50,7 @@ public:
 - 申请空间范围为`[_bottom, _capactiy)`，长度为`_capactiy - _bottom`
 - 实际使用空间的范围为`[_bottom, _top]`，长度为`_top - _bottom + 1`
 
-![顺序栈的物理结构](stack/sequence-stack.drawio.svg)
+![顺序栈的物理结构](sequence-stack.drawio.svg)
 
 ### 具体实现
 ```cpp
@@ -145,7 +145,7 @@ public:
 - `_top`：指向栈顶元素
 - `_size`：表示栈中元素的个数
 
-![链式栈的物理结构](stack/link-stack.drawio.svg)
+![链式栈的物理结构](link-stack.drawio.svg)
 
 为了方便实现，我们使用了一个空的节点，并将`_bottom`指向了它。
 
@@ -200,6 +200,4 @@ void LinkStack<T>::push(T const &val) {
 
 利用栈底位置相对不变的特性，可让两个顺序栈共享一个一维数组空间，将两个栈的栈底分别设置在共享空间的两端，两个栈顶向共享空间的中间延伸，如下图所示。
 
-![](stack/share-stack.drawio.svg)
-
-## 单调栈
+![](share-stack.drawio.svg)

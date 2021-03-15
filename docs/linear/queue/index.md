@@ -51,7 +51,7 @@ public:
 - 申请空间为`[_v, _capacity)`，大小为`_capacity - _v`
 - 使用空间为`[_head, _tail)`，大小为`_tail - _head`
 
-![](queue/sequence-queue.drawio.svg)
+![](sequence-queue.drawio.svg)
 
 ### 具体实现
 
