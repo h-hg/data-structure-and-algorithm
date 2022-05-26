@@ -1,5 +1,14 @@
-.vscode/
+# nodejs
+**/node_modules/
+# python
+**/__pycache__/
+**/ropeproject/
+# c++
 *.exe
+*.out
+*.o
+
+.vscode/
 test/
 tmp/
 temp/
