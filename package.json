@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "docs": "npx docsify serve",
+    "leetcode": "python script/leetcode.py",
+    "clean": "echo clean",
+    "format": "echo format"
+  },
+  "devDependencies": {
+    "docsify-cli": "^4.4.4"
+  }
+}
