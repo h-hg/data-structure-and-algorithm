@@ -1,6 +1,7 @@
 #ifndef _UNION_FIND_SET_BASE_H
 #define _UNION_FIND_SET_BASE_H
 #include <vector>
+#include <numeric>
 using namespace std;
 
 //union find set base
@@ -14,8 +15,7 @@ public:
   void merge(int a, int b);
 };
 UFSB::UFSB(int n): father(n) {
-  for(int i = 0; i < n; ++i)
-    father[i] = i;
+  iota(father.begin(), father.end(), 0);
 }
 
 bool UFSB::isSameSet(int a, int b) {
@@ -25,8 +25,7 @@ bool UFSB::isSameSet(int a, int b) {
 void UFSB::merge(int a, int b) {
   int rootA = findRoot(a),
       rootB = findRoot(b);
-  if(rootA != rootB)
-    father[rootB] = rootA;
+  father[rootB] = rootA;
 }
 
 int UFSB::findRoot(int x) {
@@ -35,7 +34,7 @@ int UFSB::findRoot(int x) {
   while(root != father[root])
     root = father[root];
   //The second pass: let nodes point to root
-  while(x != father[x]) {
+  while(x != root) {
     int tmp = father[x];
     father[x] = root;
     x = tmp;

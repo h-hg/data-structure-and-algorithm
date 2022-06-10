@@ -3,6 +3,7 @@ import sys
 import requests
 import json
 from bs4 import BeautifulSoup
+from utils import *
 
 class Crawler:
     def __init__(self):
@@ -78,6 +79,72 @@ class Crawler:
             })
         return imgs
 
+class CppCode:
+
+    def rmBlockComment(self, content):
+        pass
+    def format(self, content):
+        pass
+
+class Leetcode2:
+    def __init__(self):
+        self.scriptPath = sys.path[0]
+        self.draftWorkplace = os.path.join(self.scriptPath, '..', 'daft', 'leetcode')
+        self.publicWorkplace = os.path.join(self.scriptPath, '..', 'leetcode')
+        self.crawler = Crawler()
+
+    def getIndexContent(self, info):
+        template = readfile(os.path.join(self.scriptPath, 'template/leetcode.md'))
+        return template.format(
+            title=info['title'],
+            url_en='https://leetcode.com/problems/' + info['titleSlug'],
+            url_cn='https://leetcode.cn/problems/' + info['titleSlug'],
+        )
+    
+    def getCodeContent(self, info):
+        cppCode = info['codeSnippets']['C++']['code']
+        # preprocess code
+        if cppCode.startswith('class '):
+            return {'solution.cpp' : cppCode}
+        else:
+            pos = cppCode.find('class ')
+            hFile = '// solution.h\n' + cppCode[:pos]
+            cppFile = '#include solution.h\n' + cppCode[pos:]
+            return {
+                'solution.h': hFile,
+                'solution.cpp': cppFile,
+            }
+
+
+
+    def draft_(self, info):
+        dir = self.draftWorkplace + f"{info['id']}-'{info['titleSlug']}'"
+        if os.path.exists(dir):
+            os.mkdirs(dir)
+        
+        # solution.cpp and solution.h
+        # index.md
+        writefile(os.path.join(dir, 'index.md'), self.getIndexContent(info))
+        # images
+        
+        for img in info["images"]:
+            # There are something wrong with docsify embed files with images of html
+            # see https://github.com/docsifyjs/docsify/issues/865
+            info["content"] = info['content'].replace(img['src'], self.getProblemRelativePath(info) + '/' + img["filename"])
+            with open(os.path.join(dir, img['filename']), 'wb') as f:
+                f.write(img["data"])
+        
+    def draft(self, titleSlug):
+        pass
+    def draftById(self, id):
+        pass
+
+    def public_(self, path):
+        pass
+    def public(self, titleSlug):
+        pass
+    def publicById(self, id):
+        pass
 
 class Leetcode:
     def __init__(self):
